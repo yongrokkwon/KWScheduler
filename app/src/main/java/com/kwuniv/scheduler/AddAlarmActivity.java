@@ -1,5 +1,7 @@
 package com.kwuniv.scheduler;
 
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -10,11 +12,13 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.Calendar;
+
 public class AddAlarmActivity extends AppCompatActivity {
 
-    private EditText titleEditText, dateEditText, timeEditText;
+    private EditText titleEditText;
     private RadioGroup repeatRadioGroup;
-    private TextView saveButton;
+    private TextView saveButton, dateTextView, timeTextView;
     private ImageView backButton;
 
     @Override
@@ -24,8 +28,6 @@ public class AddAlarmActivity extends AppCompatActivity {
 
         // View 초기화
         titleEditText = findViewById(R.id.titleEditText);
-        dateEditText = findViewById(R.id.dateEditText);
-        timeEditText = findViewById(R.id.timeEditText);
         repeatRadioGroup = findViewById(R.id.repeatRadioGroup);
         saveButton = findViewById(R.id.saveButton);
         backButton = findViewById(R.id.backButton);
@@ -35,12 +37,36 @@ public class AddAlarmActivity extends AppCompatActivity {
 
         // 뒤로가기 버튼 클릭 리스너
         backButton.setOnClickListener(v -> finish());
+
+
+        dateTextView = findViewById(R.id.dateTextView);
+        timeTextView = findViewById(R.id.timeTextView);
+
+        // Date picker dialog
+        dateTextView.setOnClickListener(v -> {
+            Calendar calendar = Calendar.getInstance();
+            new DatePickerDialog(this, (view, year, month, dayOfMonth) -> {
+                String selectedDate = String.format("%04d-%02d-%02d", year, month + 1, dayOfMonth);
+                dateTextView.setText(selectedDate);
+                dateTextView.setTextColor(getResources().getColor(android.R.color.black));
+            }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show();
+        });
+
+        // Time picker dialog
+        timeTextView.setOnClickListener(v -> {
+            Calendar calendar = Calendar.getInstance();
+            new TimePickerDialog(this, (view, hourOfDay, minute) -> {
+                String selectedTime = String.format("%02d:%02d", hourOfDay, minute);
+                timeTextView.setText(selectedTime);
+                timeTextView.setTextColor(getResources().getColor(android.R.color.black));
+            }, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true).show();
+        });
     }
 
     private void saveAlarm() {
         String title = titleEditText.getText().toString();
-        String date = dateEditText.getText().toString();
-        String time = timeEditText.getText().toString();
+        String date = dateTextView.getText().toString();
+        String time = timeTextView.getText().toString();
         int selectedRepeatId = repeatRadioGroup.getCheckedRadioButtonId();
         String repeat = "없음";
 
