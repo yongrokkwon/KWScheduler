@@ -1,0 +1,39 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="12dp"
+    android:background="?attr/selectableItemBackground">
+
+    <!-- Title -->
+    <TextView
+        android:id="@+id/alarmTitleText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="알림 제목"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:paddingBottom="4dp"
+        android:textColor="@android:color/black" />
+
+    <!-- Date and Time -->
+    <TextView
+        android:id="@+id/alarmDateTimeText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="2024-12-01 14:00"
+        android:textSize="14sp"
+        android:paddingBottom="4dp"
+        android:textColor="@android:color/darker_gray" />
+
+    <!-- Repeat Information -->
+    <TextView
+        android:id="@+id/alarmRepeatText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="반복: 없음"
+        android:textSize="14sp"
+        android:textColor="@android:color/darker_gray" />
+
+</LinearLayout>
