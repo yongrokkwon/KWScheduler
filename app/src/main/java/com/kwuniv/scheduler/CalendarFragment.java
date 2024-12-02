@@ -31,6 +31,7 @@ public class CalendarFragment extends Fragment {
     private TextView currentMonthText;
 
     private RecyclerView recyclerView;
+    private View emptyView;
     private AlarmAdapter alarmAdapter;
 
     @Override
@@ -87,6 +88,8 @@ public class CalendarFragment extends Fragment {
         recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
+        emptyView = view.findViewById(R.id.empty_view);
+
         return view;
     }
 
@@ -115,11 +118,17 @@ public class CalendarFragment extends Fragment {
         if (alarmAdapter == null) {
             alarmAdapter = new AlarmAdapter(alarms);
             recyclerView.setAdapter(alarmAdapter);
-        } else {
-            alarmAdapter.updateAlarms(alarms);
         }
-    }
 
+        if (alarms.isEmpty()) {
+            recyclerView.setVisibility(View.GONE);
+            emptyView.setVisibility(View.VISIBLE);
+        } else {
+            recyclerView.setVisibility(View.VISIBLE);
+            emptyView.setVisibility(View.GONE);
+        }
+        alarmAdapter.updateAlarms(alarms);
+    }
 
 
     private List<String> generateDatesForMonth() {

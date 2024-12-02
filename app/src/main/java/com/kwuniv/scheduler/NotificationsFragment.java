@@ -18,13 +18,16 @@ public class NotificationsFragment extends Fragment {
 
     private HashMap<String, List<String>> scheduleMap;
     AlarmAdapter adapter;
+    RecyclerView scheduleRecyclerView;
+    View emptyView;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_notifications, container, false);
 
-        RecyclerView scheduleRecyclerView = view.findViewById(R.id.scheduleRecyclerView);
+        scheduleRecyclerView = view.findViewById(R.id.scheduleRecyclerView);
+        emptyView = view.findViewById(R.id.emptyView);
         scheduleRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         // Set the adapter
@@ -38,7 +41,18 @@ public class NotificationsFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        updateUI();
+    }
+
+    private void updateUI() {
         List<Alarm> alarms = SharedPreferenceManager.getInstance(getContext()).getAlarms();
+        if (alarms.isEmpty()) {
+            scheduleRecyclerView.setVisibility(View.GONE);
+            emptyView.setVisibility(View.VISIBLE);
+        } else {
+            scheduleRecyclerView.setVisibility(View.VISIBLE);
+            emptyView.setVisibility(View.GONE);
+        }
         adapter.updateAlarms(alarms);
     }
 }

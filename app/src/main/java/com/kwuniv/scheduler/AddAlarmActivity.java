@@ -12,7 +12,9 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.List;
 
 public class AddAlarmActivity extends AppCompatActivity {
 
@@ -83,7 +85,28 @@ public class AddAlarmActivity extends AppCompatActivity {
         Alarm alarm = new Alarm(title, date, time, repeat);
         SharedPreferenceManager.getInstance(this).saveAlarm(alarm);
 
+        registerAlarm(alarm);
+
         Toast.makeText(this, "알림이 저장되었습니다.", Toast.LENGTH_SHORT).show();
         finish();
     }
+
+    private void registerAlarm(Alarm alarm) {
+        AlarmHelper alarmHelper = new AlarmHelper(this);
+
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(sdf.parse(alarm.getDate() + " " + alarm.getTime()));
+
+            // Register the alarm if the time is in the future
+            if (calendar.getTimeInMillis() > System.currentTimeMillis()) {
+                alarmHelper.setAlarm(alarm.hashCode(), calendar, alarm.getTitle());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(this, "알람을 등록할 수 없습니다.", Toast.LENGTH_SHORT).show();
+        }
+    }
+
 }
