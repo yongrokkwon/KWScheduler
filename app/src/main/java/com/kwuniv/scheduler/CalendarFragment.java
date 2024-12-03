@@ -1,6 +1,7 @@
 package com.kwuniv.scheduler;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -114,10 +115,11 @@ public class CalendarFragment extends Fragment {
 
         List<Alarm> alarms = SharedPreferenceManager.getInstance(getContext()).getAlarmsByMonth(year, month);
 
-        // Update RecyclerView with alarms
         if (alarmAdapter == null) {
             alarmAdapter = new AlarmAdapter(alarms);
             recyclerView.setAdapter(alarmAdapter);
+        } else {
+            alarmAdapter.updateAlarms(alarms); // 데이터 업데이트
         }
 
         if (alarms.isEmpty()) {
@@ -127,7 +129,6 @@ public class CalendarFragment extends Fragment {
             recyclerView.setVisibility(View.VISIBLE);
             emptyView.setVisibility(View.GONE);
         }
-        alarmAdapter.updateAlarms(alarms);
     }
 
 

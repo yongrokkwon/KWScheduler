@@ -1,5 +1,6 @@
 package com.kwuniv.scheduler;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,14 +9,15 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.AlarmViewHolder> {
 
-    private final List<Alarm> alarmList;
+    private final List<Alarm> alarms;
 
-    public AlarmAdapter(List<Alarm> alarmList) {
-        this.alarmList = alarmList;
+    public AlarmAdapter(List<Alarm> alarms) {
+        this.alarms = alarms != null ? alarms : new ArrayList<>();
     }
 
     @NonNull
@@ -27,7 +29,7 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.AlarmViewHol
 
     @Override
     public void onBindViewHolder(@NonNull AlarmViewHolder holder, int position) {
-        Alarm alarm = alarmList.get(position);
+        Alarm alarm = alarms.get(position);
 
         // Set data
         holder.title.setText(alarm.getTitle());
@@ -37,12 +39,13 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.AlarmViewHol
 
     @Override
     public int getItemCount() {
-        return alarmList.size();
+        Log.d("###### getItemCount", alarms.size() + "");
+        return alarms.size();
     }
 
     public void updateAlarms(List<Alarm> newAlarms) {
-        alarmList.clear();
-        alarmList.addAll(newAlarms);
+        alarms.clear();
+        alarms.addAll(newAlarms);
         notifyDataSetChanged();
     }
 

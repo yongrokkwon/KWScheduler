@@ -7,9 +7,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 public class SharedPreferenceManager {
@@ -17,11 +15,42 @@ public class SharedPreferenceManager {
     private static final String PREF_NAME = "AppSharedPreferences";
     private static final String KEY_ALARMS = "alarms";
 
+    private static final String KEY_NOTIFICATIONS_ENABLED = "notification_enabled";
+    private static final String KEY_VIBRATION_ENABLED = "vibration_enabled";
+    private static final String KEY_SOUND_ENABLED = "sound_enabled";
+
     private static SharedPreferenceManager instance;
     private final SharedPreferences sharedPreferences;
 
     private SharedPreferenceManager(Context context) {
         sharedPreferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
+    }
+
+    // 알림 설정 저장 및 확인
+    public boolean isNotificationsEnabled() {
+        return sharedPreferences.getBoolean(KEY_NOTIFICATIONS_ENABLED, true); // 기본값: true
+    }
+
+    public void setNotificationsEnabled(boolean isEnabled) {
+        sharedPreferences.edit().putBoolean(KEY_NOTIFICATIONS_ENABLED, isEnabled).apply();
+    }
+
+    // 진동 설정 저장 및 불러오기
+    public boolean isVibrationEnabled() {
+        return sharedPreferences.getBoolean(KEY_VIBRATION_ENABLED, false);
+    }
+
+    public void setVibrationEnabled(boolean isEnabled) {
+        sharedPreferences.edit().putBoolean(KEY_VIBRATION_ENABLED, isEnabled).apply();
+    }
+
+    // 소리 설정 저장 및 불러오기
+    public boolean isSoundEnabled() {
+        return sharedPreferences.getBoolean(KEY_SOUND_ENABLED, true);
+    }
+
+    public void setSoundEnabled(boolean isEnabled) {
+        sharedPreferences.edit().putBoolean(KEY_SOUND_ENABLED, isEnabled).apply();
     }
 
     // Singleton instance

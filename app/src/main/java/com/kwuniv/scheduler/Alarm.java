@@ -68,4 +68,14 @@ public class Alarm {
     public void setRepeat(String repeat) {
         this.repeat = repeat;
     }
+
+    @Override
+    public String toString() {
+        return "Alarm{" +
+                "title='" + title + '\'' +
+                ", date='" + date + '\'' +
+                ", time='" + time + '\'' +
+                ", repeat='" + repeat + '\'' +
+                '}';
+    }
 }
