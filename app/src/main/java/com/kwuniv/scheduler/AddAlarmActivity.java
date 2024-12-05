@@ -16,6 +16,12 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 
+/**
+ * AddAlarmActivity
+ * 사용자가 알림을 추가하는 화면을 제공하는 Activity
+ * - 날짜, 시간, 제목, 반복 여부를 설정할 수 있음
+ * - 설정한 알림은 SharedPreferences에 저장되고, AlarmManager를 통해 알림이 등록
+ */
 public class AddAlarmActivity extends AppCompatActivity {
 
     private EditText titleEditText;
@@ -65,6 +71,12 @@ public class AddAlarmActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * saveAlarm
+     * 사용자가 입력한 데이터를 기반으로 알림을 저장하고 등록
+     * - 제목, 날짜, 시간, 반복 여부를 확인
+     * - 유효성 검사를 통과한 경우, SharedPreferences에 알림을 저장하고 AlarmManager에 등록
+     */
     private void saveAlarm() {
         String title = titleEditText.getText().toString();
         String date = dateTextView.getText().toString();
@@ -91,6 +103,13 @@ public class AddAlarmActivity extends AppCompatActivity {
         finish();
     }
 
+    /**
+     * registerAlarm
+     * AlarmManager를 사용하여 알림을 등록
+     * - 알림 시간(Calendar)을 설정하고, 현재 시각보다 이후일 경우에만 등록
+     *
+     * @param alarm 사용자가 설정한 알람 객체
+     */
     private void registerAlarm(Alarm alarm) {
         AlarmHelper alarmHelper = new AlarmHelper(this);
 
